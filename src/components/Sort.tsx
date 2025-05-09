@@ -55,8 +55,8 @@ export const criteria: [string, SortCriterion][] = [
   ['Date (Descending)', buildDateSortCriterion(SortOrder.Descending)],
   ['Size (Ascending)', buildFieldSortCriterion('size', SortOrder.Ascending)],
   ['Size (Descending)', buildFieldSortCriterion('size', SortOrder.Descending)],
-  ['Name (A-Z)', buildFieldSortCriterion('title', SortOrder.Ascending)],
-  ['Name (Z-A)', buildFieldSortCriterion('title', SortOrder.Descending)],
+  ['Name (A-Z)', buildFieldSortCriterion('ec_name', SortOrder.Ascending)],
+  ['Name (Z-A)', buildFieldSortCriterion('ec_name', SortOrder.Descending)],
   ['No Sort Criterion', buildNoSortCriterion()],
   ['No Sort Criterion', buildNoSortCriterion()],
 ];
