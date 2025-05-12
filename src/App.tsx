@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { 
   Container, 
   Typography, 
@@ -8,7 +8,8 @@ import {
   ThemeProvider,
   createTheme,
   CssBaseline,
-  alpha
+  alpha,
+  Button
 } from '@mui/material';
 import SearchBox from "./components/SearchBox";
 import Facet from "./components/Facet";
@@ -24,7 +25,7 @@ import {
   sort as SortController,
 } from './controllers/controllers';
 import { criteria, Sort } from './components/Sort';
-import { headlessEngine } from "./Engine";
+import { headlessEngine, updatePipeline } from "./Engine";
 
 // Sophisticated dark color palette
 const colors = {
@@ -120,13 +121,29 @@ const theme = createTheme({
 
 let didInit = false;
 
+interface LanguageProps {
+  language: string,
+}
+
 function App() {
+  const [language, setLanguage] = useState('en');
+
   useEffect(() => {
     if (!didInit) {
       didInit = true;
       headlessEngine.executeFirstSearch();
     }
   }, []);
+
+  useEffect(() => {
+    if (didInit) {
+      updatePipeline(language);
+    }
+  }, [language]);
+
+  const toggleLanguage = () => {
+    setLanguage(prev => prev === 'en' ? 'fr' : 'en');
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -140,13 +157,35 @@ function App() {
         }}
       >
         <Container maxWidth="lg">
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              mb: 2
+            }}
+          >
+            <Button
+              variant="outlined"
+              onClick={toggleLanguage}
+              sx={{
+                color: colors.text.primary,
+                borderColor: colors.border,
+                '&:hover': {
+                  borderColor: colors.primary,
+                  backgroundColor: alpha(colors.primary, 0.1),
+                },
+              }}
+            >
+              {language === 'en' ? 'French' : 'English'}
+            </Button>
+          </Box>
           <Typography 
             variant="h1" 
             component="h1" 
             align="center" 
             sx={{ mb: 5 }}
           >
-            SAQ Search App
+            {language === 'en' ? "SAQ Search App English" : "SAQ Search App French"}
           </Typography>
           
           <Box 
