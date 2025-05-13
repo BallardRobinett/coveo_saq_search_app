@@ -15,25 +15,16 @@ import SearchBox from "./components/SearchBox";
 import Facet from "./components/Facet";
 import ResultList from "./components/ResultList";
 import Pager from "./components/Pager";
-import { pager as PagerController } from "./controllers/controllers";
-import { resultTemplatesManager } from './controllers/ResultTemplatesManager';
-
-import {
-  searchBox as SearchBoxController,
-  facet as FacetController,
-  resultList as ResultListController,
-  sort as SortController,
-} from './controllers/controllers';
+import { buildControllers } from './controllers/controllers';
 import { criteria, Sort } from './components/Sort';
 import { headlessEngine, updatePipeline } from "./Engine";
 
-// Sophisticated dark color palette
 const colors = {
-  background: '#1A1C23', // Deep blue-grey
-  paper: '#252832', // Slightly lighter blue-grey
-  primary: '#546E7A', // Muted blue-grey
-  secondary: '#455A64', // Darker blue-grey
-  accent: '#78909C', // Light blue-grey
+  background: '#1A1C23',
+  paper: '#252832',
+  primary: '#546E7A',
+  secondary: '#455A64',
+  accent: '#78909C',
   text: {
     primary: '#E0E3E7',
     secondary: '#B0BEC5',
@@ -121,12 +112,9 @@ const theme = createTheme({
 
 let didInit = false;
 
-interface LanguageProps {
-  language: string,
-}
-
 function App() {
   const [language, setLanguage] = useState('en');
+  const [controllers, setControllers] = useState(() => buildControllers(headlessEngine));
 
   useEffect(() => {
     if (!didInit) {
@@ -137,9 +125,13 @@ function App() {
 
   useEffect(() => {
     if (didInit) {
-      updatePipeline(language);
+      const newEngine = updatePipeline(language);
+      const newControllers = buildControllers(newEngine);
+      setControllers(newControllers);
+      headlessEngine.executeFirstSearch();
     }
   }, [language]);
+
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'en' ? 'fr' : 'en');
@@ -195,7 +187,7 @@ function App() {
               mx: 'auto',
             }}
           >
-            <SearchBox controller={SearchBoxController} />
+            <SearchBox controller={controllers.searchBox} />
           </Box>
 
           <Grid container spacing={3}>
@@ -207,7 +199,7 @@ function App() {
                   backgroundColor: colors.paper,
                 }}
               >
-                <Facet controller={FacetController} title="Source" />
+                <Facet controller={controllers.facet} title="Source" />
               </Paper>
             </Grid>
             
@@ -220,14 +212,14 @@ function App() {
                 }}
               >
                 <Box sx={{ mb: 3 }}>
-                  <Sort controller={SortController} criteria={criteria} />
+                  <Sort controller={controllers.sort} criteria={criteria} />
                 </Box>
                 <ResultList
-                  controller={ResultListController}
-                  resultTemplatesManager={resultTemplatesManager}
+                  controller={controllers.resultList}
+                  resultTemplatesManager={controllers.resultTemplatesManager}
                 />
                 <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
-                  <Pager controller={PagerController} />
+                  <Pager controller={controllers.pager} />
                 </Box>
               </Paper>
             </Grid>

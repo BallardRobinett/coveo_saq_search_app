@@ -1,17 +1,17 @@
 import {
-    ResultTemplatesManager,
-    Result,
-    buildResultTemplatesManager,
-  } from '@coveo/headless';
-  import { InteractiveResult } from '../components/InteractiveResult';
-  import { headlessEngine } from '../Engine';
-  import { Box, Typography, Paper, alpha, useTheme } from '@mui/material';
-  
-  export const resultTemplatesManager: ResultTemplatesManager<
-    (result: Result) => JSX.Element
-  > = buildResultTemplatesManager(headlessEngine);
-  
-  resultTemplatesManager.registerTemplates(
+  ResultTemplatesManager,
+  Result,
+  buildResultTemplatesManager,
+  SearchEngine,
+} from '@coveo/headless';
+import { InteractiveResult } from '../components/InteractiveResult';
+import { headlessEngine } from '../Engine';
+import { Box, Typography, Paper, alpha, useTheme } from '@mui/material';
+
+export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): ResultTemplatesManager<(result: Result) => JSX.Element> => {
+  const manager: ResultTemplatesManager<(result: Result) => JSX.Element> = buildResultTemplatesManager(engine);
+ 
+  manager.registerTemplates(
     {
       conditions: [],
       content: (result: Result) => (
@@ -46,7 +46,7 @@ import {
                   src={result.raw.imageurl as string}
                   alt={result.title}
                   style={{
-                     maxWidth: '100%', 
+                     maxWidth: '100%',
                      maxHeight: '100%',
                      objectFit: 'contain'
                     }}
@@ -81,7 +81,7 @@ import {
                     WebkitBoxOrient: 'vertical',
                   }}
                 >
-                  <InteractiveResult result={result}>
+                  <InteractiveResult result={result} engine={engine}>
                     {result.title}
                   </InteractiveResult>
                 </Typography>
@@ -106,3 +106,7 @@ import {
       fields: ['imageurl'],
     },
   );
+  return manager;
+};
+
+export const resultTemplatesManager = buildResultTemplatesManagerWithEngine(headlessEngine);
