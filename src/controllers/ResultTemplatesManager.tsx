@@ -5,8 +5,9 @@ import {
   SearchEngine,
 } from '@coveo/headless';
 import { InteractiveResult } from '../components/InteractiveResult';
+import { Quickview } from '../components/Quickview';
 import { headlessEngine } from '../Engine';
-import { Box, Typography, Paper, alpha, useTheme } from '@mui/material';
+import { Box, Typography, Paper, alpha, useTheme, Stack } from '@mui/material';
 
 export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): ResultTemplatesManager<(result: Result) => JSX.Element> => {
   const manager: ResultTemplatesManager<(result: Result) => JSX.Element> = buildResultTemplatesManager(engine);
@@ -68,23 +69,27 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                 )}
               </Box>
               <Box sx={{ flex: 1, overflow: 'hidden' }}>
-                <Typography
-                  variant="h6"
-                  component="h2"
-                  sx={{
-                    fontSize: '1.1rem',
-                    mb: 1,
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                  }}
-                >
-                  <InteractiveResult result={result} engine={engine}>
-                    {result.title}
-                  </InteractiveResult>
-                </Typography>
+                <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 1 }}>
+                  <Typography
+                    variant="h6"
+                    component="h2"
+                    sx={{
+                      fontSize: '1.1rem',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      flex: 1,
+                      mr: 2,
+                    }}
+                  >
+                    <InteractiveResult result={result} engine={engine}>
+                      {result.title}
+                    </InteractiveResult>
+                  </Typography>
+                  <Quickview result={result} engine={engine} />
+                </Stack>
                 <Typography
                   variant="body2"
                   color="text.secondary"
@@ -96,14 +101,23 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                     WebkitBoxOrient: 'vertical',
                   }}
                 >
-                  {result.percentScore}
+                  {result.excerpt || result.printableUri}
                 </Typography>
+                {result.raw.source && (
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ mt: 1, display: 'block' }}
+                  >
+                    Source: {result.raw.source}
+                  </Typography>
+                )}
               </Box>
             </Box>
           </Paper>
         </li>
       ),
-      fields: ['imageurl'],
+      fields: ['imageurl', 'source'],
     },
   );
   return manager;
