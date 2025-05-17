@@ -15,8 +15,7 @@ import {
   Chip,
   Stack,
   Rating,
-  Divider,
-  Link
+  Divider
 } from '@mui/material';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import InventoryIcon from '@mui/icons-material/Inventory';
@@ -111,22 +110,11 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                         WebkitBoxOrient: 'vertical',
                         flex: 1,
                         mr: 2,
-                        color: '#B8E6FF',
+                        color: 'primary.light',
                       }}
                     >
                       <InteractiveResult result={result} engine={engine}>
-                        <Link
-                          sx={{
-                            color: 'inherit',
-                            textDecoration: 'none',
-                            '&:hover': {
-                              textDecoration: 'underline',
-                              color: 'primary.light',
-                            },
-                          }}
-                        >
-                          {title}
-                        </Link>
+                        {title}
                       </InteractiveResult>
                     </Typography>
                     
@@ -167,7 +155,7 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                             color: 'primary.main'
                           }}
                         >
-                          ${price.replace(/^\$/, '')}
+                          {price}
                         </Typography>
                       </Box>
                     )}
@@ -180,18 +168,11 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                           sx={{
                             color: availability.toLowerCase().includes('in stock') 
                               ? 'success.main' 
-                              : availability.toLowerCase().includes('unavailable') || availability === '0'
-                                ? 'error.main'
-                                : 'text.secondary',
+                              : 'text.secondary',
                             fontWeight: 500
                           }}
                         >
-                          {isNaN(Number(availability)) 
-                            ? availability 
-                            : Number(availability) > 0 
-                              ? `In Stock (${availability} units)` 
-                              : "Out of Stock"
-                          }
+                          {availability}
                         </Typography>
                       </Box>
                     )}
