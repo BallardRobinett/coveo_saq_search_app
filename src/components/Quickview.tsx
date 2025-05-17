@@ -24,17 +24,26 @@ export const Quickview: React.FC<QuickviewProps> = ({ result, engine }) => {
   const [error, setError] = useState<string | null>(null);
   const theme = useTheme();
 
-  const quickview = buildQuickview(engine, {
-    options: { result },
-  });
+  const [controller] = useState(() => 
+    buildQuickview(engine, {
+      options: { result },
+    })
+  );
 
-  const [state, setState] = useState(quickview.state);
+  const [state, setState] = useState(controller.state);
 
   useEffect(() => {
-    return quickview.subscribe(() => setState(quickview.state));
-  }, [quickview]);
+    const subscription = controller.subscribe(() => setState(controller.state));
+    return subscription;
+  }, [controller]);
 
-  const handleOpen = async () => {
+  useEffect(() => {
+    if (open && state.content && loading) {
+      setLoading(false);
+    }
+  }, [state.content, open, loading]);
+
+  const handleOpen = () => {
     if (!state.resultHasPreview) {
       setError('No preview available for this item');
       setOpen(true);
@@ -46,8 +55,7 @@ export const Quickview: React.FC<QuickviewProps> = ({ result, engine }) => {
     setError(null);
 
     try {
-      // Call fetchResultContent which updates the state
-      quickview.fetchResultContent();
+      controller.fetchResultContent();
     } catch (err) {
       console.error('Error fetching quickview content:', err);
       setError(err instanceof Error ? err.message : 'Failed to load preview content.');
@@ -55,21 +63,11 @@ export const Quickview: React.FC<QuickviewProps> = ({ result, engine }) => {
     }
   };
 
-  // Monitor state changes to detect when content is loaded
-  useEffect(() => {
-    if (open && state.content && loading) {
-      setLoading(false);
-      setError(null);
-    }
-  }, [state.content, open, loading]);
-
   const handleClose = () => {
     setOpen(false);
     setError(null);
-    setLoading(false);
   };
 
-  // Check if quickview button should be shown
   if (!state.resultHasPreview) {
     return null;
   }
