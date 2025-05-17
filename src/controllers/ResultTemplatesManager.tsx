@@ -20,6 +20,8 @@ import {
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import InventoryIcon from '@mui/icons-material/Inventory';
 
+const titleColor = '#6CB3F5'
+
 function extractTitle(input_str: String){
   return input_str.split('|')[0].trim();
 }
@@ -114,7 +116,14 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                       }}
                     >
                       <InteractiveResult result={result} engine={engine}>
-                        {title}
+                        <span 
+                        style={{ 
+                          color: titleColor,
+                          textDecoration: "underline",
+                          textDecorationColor: titleColor,
+                          }}>
+                          {title}
+                        </span>
                       </InteractiveResult>
                     </Typography>
                     
