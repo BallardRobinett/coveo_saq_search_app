@@ -21,6 +21,7 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import InventoryIcon from '@mui/icons-material/Inventory';
 
 const titleColor = '#6CB3F5'
+const textColor = '#6CB3F5'
 
 function extractTitle(input_str: String){
   return input_str.split('|')[0].trim();
@@ -154,7 +155,7 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                     gap: 2,
                     mt: 1.5
                   }}>
-                    {price && (
+                    {(
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <LocalOfferIcon fontSize="small" sx={{ mr: 1, color: 'primary.main' }} />
                         <Typography
@@ -169,24 +170,22 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                       </Box>
                     )}
                     
-                    {availability && (
+                    {(
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <InventoryIcon fontSize="small" sx={{ mr: 1, color: 'text.secondary' }} />
                         <Typography
-                          variant="body2"
+                          variant="body1"
                           sx={{
-                            color: availability.toLowerCase().includes('in stock') 
-                              ? 'success.main' 
-                              : 'text.secondary',
-                            fontWeight: 500
+                            fontWeight: 600,
+                            color: 'primary.main'
                           }}
                         >
-                          {availability}
+                          {availability} in store
                         </Typography>
                       </Box>
                     )}
                     
-                    {rating > 0 && (
+                    {(
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <Rating 
                           value={rating} 
@@ -200,7 +199,7 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                       </Box>
                     )}
                     
-                    {productName && productName !== title && (
+                    {(
                       <Typography
                         variant="body2"
                         color="text.secondary"
@@ -211,7 +210,7 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                     )}
                   </Box>
                   
-                  {categoryList.length > 0 && (
+                  {(
                     <Box sx={{ mt: 2, display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                       {categoryList.map((category, index) => (
                         <Chip
