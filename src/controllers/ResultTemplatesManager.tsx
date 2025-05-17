@@ -164,7 +164,7 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                             color: 'primary.main'
                           }}
                         >
-                          {price}
+                          ${parseFloat(price).toFixed(2)}
                         </Typography>
                       </Box>
                     )}
