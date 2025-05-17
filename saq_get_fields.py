@@ -67,11 +67,11 @@ category_2 = document.get_meta_data_value("category_2")[0]
 category_3 = document.get_meta_data_value("category_3")[0]
 
 if category_1 and category_2 and category_3:
-    category = f"{category_1};{category_1}|{category_2};{category_1}|{category_2}|{category_3}";
+    category = f"{category_1};{category_1}|{category_2};{category_1}|{category_2}|{category_3};"
 elif category_1 and category_2:
-    category = f"{category_1};{category_1}|{category_2};";
+    category = f"{category_1};{category_1}|{category_2};"
 elif category_1:
-    category = f"{category_1};";
+    category = f"{category_1};"
 else:
     category = "no categories found"
 

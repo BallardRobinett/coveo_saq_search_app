@@ -9,6 +9,10 @@ import { Quickview } from '../components/Quickview';
 import { headlessEngine } from '../Engine';
 import { Box, Typography, Paper, alpha, useTheme, Stack } from '@mui/material';
 
+function extractTitle(input_str: String){
+  return input_str.split('|')[0].trim();
+}
+
 export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): ResultTemplatesManager<(result: Result) => JSX.Element> => {
   const manager: ResultTemplatesManager<(result: Result) => JSX.Element> = buildResultTemplatesManager(engine);
  
@@ -85,7 +89,7 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                     }}
                   >
                     <InteractiveResult result={result} engine={engine}>
-                      {result.title}
+                      {extractTitle(result.title)}
                     </InteractiveResult>
                   </Typography>
                   <Quickview result={result} engine={engine} />
@@ -103,21 +107,62 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                 >
                   {result.excerpt || result.printableUri}
                 </Typography>
-                {result.raw.source && (
+                {(
                   <Typography
                     variant="caption"
                     color="text.secondary"
                     sx={{ mt: 1, display: 'block' }}
                   >
-                    Source: {result.raw.source}
+                    Price: {result.raw.ec_price as string}
                   </Typography>
+                  
+                )}
+                {(
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ mt: 1, display: 'block' }}
+                  >
+                    In store: {result.raw.product_availability as string}
+                  </Typography>
+                  
+                )}
+                {(
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ mt: 1, display: 'block' }}
+                  >
+                    product_rating: {result.raw.product_rating as string}
+                  </Typography>
+                  
+                )}
+                {(
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ mt: 1, display: 'block' }}
+                  >
+                    product_name: {result.raw.product_name as string}
+                  </Typography>
+                  
+                )}
+                {(
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ mt: 1, display: 'block' }}
+                  >
+                    category: {result.raw.category as string}
+                  </Typography>
+                  
                 )}
               </Box>
             </Box>
           </Paper>
         </li>
       ),
-      fields: ['imageurl', 'source'],
+      fields: ['imageurl', 'source', 'image_url', 'ec_price', 'product_availability', 'product_rating', 'category', 'product_name'],
     },
   );
   return manager;
