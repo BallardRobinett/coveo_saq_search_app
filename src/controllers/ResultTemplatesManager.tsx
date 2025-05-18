@@ -180,7 +180,7 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                             color: 'primary.main'
                           }}
                         >
-                          {availability} in store
+                          {availability} available
                         </Typography>
                       </Box>
                     )}
@@ -188,7 +188,7 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                     {(
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <Rating 
-                          value={rating} 
+                          value={rating/20.0} 
                           readOnly 
                           precision={0.5} 
                           size="small" 
