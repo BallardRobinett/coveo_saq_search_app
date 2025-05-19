@@ -1,3 +1,20 @@
+import re
+
+def extract_categories(input_str):
+    if not input_str:
+        return []
+    
+    category_pattern = r'<a href=".*?" title="">(.*?)</a>'
+    matches = re.findall(category_pattern, input_str, re.DOTALL)
+    
+    # Filter out empty matches and remove duplicates while preserving order
+    categories = []
+    for category in matches:
+        if category and category not in categories:
+            categories.append(category)
+    
+    return categories
+
 uri  = document.get_meta_data_value("clickableuri")[0]
 log(f"start of extension script for {uri}")
 product_number = uri.split('/')[-1]
