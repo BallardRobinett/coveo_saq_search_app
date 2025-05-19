@@ -7,13 +7,14 @@ def extract_categories(input_str):
     category_pattern = r'<a href=".*?" title="">(.*?)</a>'
     matches = re.findall(category_pattern, input_str, re.DOTALL)
     
-    # Filter out empty matches and remove duplicates while preserving order
     categories = []
     for category in matches:
         if category and category not in categories:
             categories.append(category)
+
+    category = categories[0] if categories else "none"
     
-    return categories
+    return category
 
 uri  = document.get_meta_data_value("clickableuri")[0]
 log(f"start of extension script for {uri}")
@@ -42,11 +43,6 @@ elif product_language == "fr":
 else:
     log(f"REJECTED: product_language {product_language} not fr or en")
     document.reject()
-
-#image_url = document.get_meta_data_value("image.loc")[0]
-#document.add_meta_data({'image_url':image_url})
-
-#https://www.saq.com/media/wysiwyg/placeholder/category/06.png
 
 image_url_metadata = document.get_meta_data_value("image.loc")
 log(f"image_url_metadata: {image_url_metadata}")
@@ -114,9 +110,9 @@ category_3_metadata = document.get_meta_data_value("category_3")
 
 log(f"\ncategory_1_metadata:\n {category_1_metadata}.\n category_2_metadata:\n {category_2_metadata}.\n category_3_metadata:\n {category_3_metadata}")
 
-category_1 = document.get_meta_data_value("category_1")[0] if category_1_metadata else 0 
-category_2 = document.get_meta_data_value("category_2")[0] if category_2_metadata else 0 
-category_3 = document.get_meta_data_value("category_3")[0] if category_3_metadata else 0
+category_1 = extract_categories(document.get_meta_data_value("category_1")[0]) if category_1_metadata else 0 
+category_2 = extract_categories(document.get_meta_data_value("category_2")[0]) if category_2_metadata else 0 
+category_3 = extract_categories(document.get_meta_data_value("category_3")[0]) if category_3_metadata else 0
 
 log(f"\ncategory_1:\n {category_1}.\ncategory_2:\n {category_2}.\ncategory_3:\n {category_3}")
 
