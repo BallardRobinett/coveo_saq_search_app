@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import SearchBox from "./components/SearchBox";
 import Facet from "./components/Facet";
+import AvailabilityFacet from "./components/AvailabilityFacet";
 import ResultList from "./components/ResultList";
 import Pager from "./components/Pager";
 import { buildControllers } from './controllers/controllers';
@@ -197,9 +198,20 @@ function App() {
                 sx={{ 
                   p: 3,
                   backgroundColor: colors.paper,
+                  mb: 3
                 }}
               >
                 <Facet controller={controllers.facet} title="Source" />
+              </Paper>
+              
+              <Paper 
+                elevation={0}
+                sx={{ 
+                  p: 3,
+                  backgroundColor: colors.paper,
+                }}
+              >
+                <AvailabilityFacet controller={controllers.availabilityFacet} title="Availability" />
               </Paper>
             </Grid>
             

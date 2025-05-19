@@ -9,6 +9,7 @@ import {
 
 const FIELDS = [
   "ec_images",
+  "product_availability",
 ];
 
 const registerAdditionalFields = (headlessEngine: SearchEngine) => {
