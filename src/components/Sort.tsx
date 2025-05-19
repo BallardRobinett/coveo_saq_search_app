@@ -51,11 +51,12 @@ export const Sort: FunctionComponent<SortProps> = (props) => {
 
 export const criteria: [string, SortCriterion][] = [
   ['Relevance', buildRelevanceSortCriterion()],
-  ['Date (Ascending)', buildDateSortCriterion(SortOrder.Ascending)],
-  ['Date (Descending)', buildDateSortCriterion(SortOrder.Descending)],
-  ['Size (Ascending)', buildFieldSortCriterion('size', SortOrder.Ascending)],
-  ['Size (Descending)', buildFieldSortCriterion('size', SortOrder.Descending)],
   ['Name (A-Z)', buildFieldSortCriterion('product_name', SortOrder.Ascending)],
-  ['Name (Z-A)', buildFieldSortCriterion('date', SortOrder.Descending)],
-  ['No Sort Criterion', buildNoSortCriterion()],
+  ['Name (Z-A)', buildFieldSortCriterion('product_name', SortOrder.Descending)],
+  ['Price (Lowest to Highest)', buildFieldSortCriterion('ec_price', SortOrder.Ascending)],
+  ['Price (Highest to Lowest)', buildFieldSortCriterion('ec_price', SortOrder.Descending)],
+  ['Rating (Highest to Lowest)', buildFieldSortCriterion('product_rating', SortOrder.Descending)],
+  ['Rating (Lowest to Highest)', buildFieldSortCriterion('product_rating', SortOrder.Ascending)],
+  ['Availability (Highest to Lowest)', buildFieldSortCriterion('product_availability', SortOrder.Descending)],
+  ['Availability (Lowest to Highest)', buildFieldSortCriterion('product_availability', SortOrder.Ascending)],
 ];
