@@ -27,6 +27,18 @@ function extractTitle(input_str: String){
   return input_str.split('|')[0].trim();
 }
 
+function extractCategories(input: string): string[] {
+  if (!input) return [];
+  const categoryPattern = new RegExp('<a href=".*?" title="">(.*?)<\/a>', 'gs');
+  const matches = [...input.matchAll(categoryPattern)];
+  const categories = matches
+    .map(match => match[1])
+    .filter(Boolean)
+    .filter((category, index, self) => self.indexOf(category) === index
+    );
+  return categories;
+}
+
 export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): ResultTemplatesManager<(result: Result) => JSX.Element> => {
   const manager: ResultTemplatesManager<(result: Result) => JSX.Element> = buildResultTemplatesManager(engine);
  
@@ -39,9 +51,8 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
         const availability = result.raw.product_availability as string;
         const rating = parseFloat(result.raw.product_rating as string) || 0;
         const productName = result.raw.product_name as string;
-        const categories = result.raw.category as string;
-        const categoryList = categories ? categories.split(';').filter(Boolean) : [];
-        
+        const categories: String[] = extractCategories(result.raw.category as string);
+
         return (
           <li key={result.uniqueId} style={{marginBottom: '16px', listStyle: 'none'}}>
             <Paper
@@ -82,19 +93,15 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                       }}
                     />
                   ) : (
-                    <Box
-                      sx={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'text.secondary',
-                        fontSize: '0.75rem',
+                    <img
+                      src={"https://www.saq.com/media/wysiwyg/placeholder/category/11.png"}
+                      alt={title}
+                      style={{
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                        objectFit: 'contain'
                       }}
-                    >
-                      No image
-                    </Box>
+                    />
                   )}
                 </Box>
                 
@@ -131,23 +138,7 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                     <Quickview result={result} engine={engine} />
                   </Stack>
                   
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: 'vertical',
-                      mt: 1,
-                      mb: 2,
-                    }}
-                  >
-                    {result.excerpt || result.printableUri}
-                  </Typography>
-                  
-                  <Divider sx={{ my: 1.5 }} />
+
                   
                   <Box sx={{ 
                     display: 'grid', 
@@ -212,10 +203,10 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                   
                   {(
                     <Box sx={{ mt: 2, display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {categoryList.map((category, index) => (
+                      {categories.map((category, index) => (
                         <Chip
                           key={index}
-                          label={category.trim()}
+                          label={(category)}
                           size="small"
                           sx={{ 
                             backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.1),
