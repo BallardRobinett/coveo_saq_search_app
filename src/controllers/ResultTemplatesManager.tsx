@@ -19,6 +19,7 @@ import {
 } from '@mui/material';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import StarIcon from '@mui/icons-material/Star';
 
 const titleColor = '#6CB3F5'
 const textColor = '#6CB3F5'
@@ -52,6 +53,7 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
         const rating = parseFloat(result.raw.product_rating as string) || 0;
         const productName = result.raw.product_name as string;
         const categories: String[] = extractCategories(result.raw.category as string);
+        const isFeatured = result.isRecommendation || result.isTopResult;
 
         return (
           <li key={result.uniqueId} style={{marginBottom: '16px', listStyle: 'none'}}>
@@ -64,8 +66,27 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                   transform: 'translateY(-2px)',
                   boxShadow: (theme) => `0 4px 12px ${alpha(theme.palette.common.black, 0.1)}`,
                 },
+                border: isFeatured ? '1px solid' : 'inherit',
+                borderColor: isFeatured ? 'warning.light' : 'inherit',
+                position: 'relative',
               }}
             >
+              {isFeatured && (
+                <Chip
+                  icon={<StarIcon fontSize="small" />}
+                  label="Featured"
+                  size="small"
+                  color="warning"
+                  sx={{
+                    position: 'absolute',
+                    top: 12,
+                    right: 12,
+                    fontWeight: 600,
+                    zIndex: 1,
+                  }}
+                />
+              )}
+              
               <Box display="flex" gap={3}>
                 <Box
                   sx={{
