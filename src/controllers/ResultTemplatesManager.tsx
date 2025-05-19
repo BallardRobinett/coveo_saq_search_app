@@ -79,8 +79,8 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                   color="warning"
                   sx={{
                     position: 'absolute',
-                    top: 12,
-                    right: 12,
+                    top: 27,
+                    right: 70,
                     fontWeight: 600,
                     zIndex: 1,
                   }}
