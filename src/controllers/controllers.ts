@@ -47,7 +47,7 @@ export const buildControllers = (engine: SearchEngine): Controllers => {
         numberOfValues: 5,
         currentValues: [
           {
-            start: 0,
+            start: 1,
             end: 10,
             endInclusive: true,
             state: 'idle'
@@ -66,16 +66,10 @@ export const buildControllers = (engine: SearchEngine): Controllers => {
           },
           {
             start: 100,
-            end: 500,
+            end: 10000,
             endInclusive: true,
             state: 'idle'
           },
-          {
-            start: 500,
-            end: Number.MAX_VALUE,
-            endInclusive: true,
-            state: 'idle'
-          }
         ]
       }
     }),

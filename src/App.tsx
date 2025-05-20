@@ -12,7 +12,7 @@ import {
   Button
 } from '@mui/material';
 import SearchBox from "./components/SearchBox";
-import NumericFacet from "./components/NumericFacet"; // Import the new NumericFacet component
+import NumericFacet from "./components/NumericFacet";
 import ResultList from "./components/ResultList";
 import Pager from "./components/Pager";
 import { buildControllers } from './controllers/controllers';

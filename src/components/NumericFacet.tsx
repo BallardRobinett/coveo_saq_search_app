@@ -45,10 +45,9 @@ const NumericFacet: FunctionComponent<NumericFacetProps> = (props) => {
     controller.toggleSelect(value);
   };
 
-  // Format the range labels nicely
   const formatRangeLabel = (range: any) => {
     const start = Math.round(range.start);
-    if (range.end === Number.MAX_VALUE) {
+    if (range.end > 300) {
       return `${start}+ units`;
     }
     const end = Math.round(range.end);
@@ -58,7 +57,6 @@ const NumericFacet: FunctionComponent<NumericFacetProps> = (props) => {
   return (
     <Box>
       <Typography variant="h6" gutterBottom>{title}</Typography>
-      
       <Box sx={{ mt: 2 }}>
         <List dense sx={{ px: 0 }}>
           {state.values.map((value) => (
