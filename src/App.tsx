@@ -9,10 +9,13 @@ import {
   createTheme,
   CssBaseline,
   alpha,
-  Button
+  Button,
+  Divider,
+  Stack
 } from '@mui/material';
 import SearchBox from "./components/SearchBox";
 import NumericFacet from "./components/NumericFacet";
+import PriceFacet from "./components/PriceFacet";
 import ResultList from "./components/ResultList";
 import Pager from "./components/Pager";
 import { buildControllers } from './controllers/controllers';
@@ -199,7 +202,13 @@ function App() {
                   backgroundColor: colors.paper,
                 }}
               >
-                <NumericFacet controller={controllers.numericFacet} title="Available Units" />
+                <Stack spacing={3}>
+                  <PriceFacet controller={controllers.priceFacet} title="Price Range" />
+                  
+                  <Divider sx={{ borderColor: alpha(colors.border, 0.5) }} />
+                  
+                  <NumericFacet controller={controllers.numericFacet} title="Available Units" />
+                </Stack>
               </Paper>
             </Grid>
             
