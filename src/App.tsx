@@ -45,6 +45,7 @@ export const translations = {
 
 import SearchBox from "./components/SearchBox";
 import NumericFacet from "./components/NumericFacet";
+import PriceFacet from "./components/PriceFacet";
 import ResultList from "./components/ResultList";
 import Pager from "./components/Pager";
 import { buildControllers } from './controllers/controllers';
@@ -224,6 +225,16 @@ function App() {
 
           <Grid container spacing={3}>
             <Grid item xs={12} md={3}>
+            <Paper 
+                elevation={0}
+                sx={{ 
+                  p: 3,
+                  backgroundColor: colors.paper,
+                  mb: 2,
+                }}
+              >
+                <PriceFacet controller={controllers.priceFacet} title={translations[language].priceRange} language={language} />
+              </Paper>
               <Paper 
                 elevation={0}
                 sx={{ 
@@ -233,16 +244,6 @@ function App() {
                 }}
               >
                 <NumericFacet controller={controllers.numericFacet} title={translations[language].availableUnits} language={language} />
-              </Paper>
-              
-              <Paper 
-                elevation={0}
-                sx={{ 
-                  p: 3,
-                  backgroundColor: colors.paper,
-                }}
-              >
-                <NumericFacet controller={controllers.priceFacet} title={translations[language].priceRange} language={language} />
               </Paper>
             </Grid>
             

@@ -12,6 +12,7 @@ import {
   useTheme
 } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import React from 'react';
 
 interface PriceFacetProps {
   controller: NumericFacetController;
