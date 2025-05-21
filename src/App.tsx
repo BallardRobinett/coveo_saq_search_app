@@ -19,23 +19,27 @@ export type AppLanguage = 'en' | 'fr';
 export const translations = {
   en: {
     availableUnits: "Available Units",
+    priceRange: "Price Range",
     sortBy: "Sort by:",
     available: "available",
     showMore: "Show More",
     showLess: "Show Less",
     noFacetValues: "No facet values available",
     noResults: "No results",
-    units: "units"
+    units: "units",
+    featured: "Featured"
   },
   fr: {
     availableUnits: "Unités disponibles",
+    priceRange: "Gamme de prix",
     sortBy: "Trier par:",
     available: "disponible",
     showMore: "Afficher plus",
     showLess: "Afficher moins",
     noFacetValues: "Aucune valeur de facette disponible",
     noResults: "Aucun résultat",
-    units: "unités"
+    units: "unités",
+    featured: "En vedette"
   }
 } as const;
 
@@ -225,9 +229,20 @@ function App() {
                 sx={{ 
                   p: 3,
                   backgroundColor: colors.paper,
+                  mb: 3
                 }}
               >
                 <NumericFacet controller={controllers.numericFacet} title={translations[language].availableUnits} language={language} />
+              </Paper>
+              
+              <Paper 
+                elevation={0}
+                sx={{ 
+                  p: 3,
+                  backgroundColor: colors.paper,
+                }}
+              >
+                <NumericFacet controller={controllers.priceFacet} title={translations[language].priceRange} language={language} />
               </Paper>
             </Grid>
             
