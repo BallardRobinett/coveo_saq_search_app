@@ -17,10 +17,12 @@ import {
   alpha,
   useTheme
 } from '@mui/material';
+import { AppLanguage } from '../App';
 
 interface NumericFacetProps {
   controller: NumericFacetController;
   title: string;
+  language: AppLanguage;
 }
 
 const NumericFacet: FunctionComponent<NumericFacetProps> = (props) => {
@@ -35,7 +37,7 @@ const NumericFacet: FunctionComponent<NumericFacetProps> = (props) => {
       <Box>
         <Typography variant="h6" gutterBottom>{title}</Typography>
         <Typography variant="body2" color="text.secondary">
-          No facet values available
+          {props.language === 'en' ? 'No facet values available' : 'Aucune valeur de facette disponible'}
         </Typography>
       </Box>
     );
@@ -48,10 +50,10 @@ const NumericFacet: FunctionComponent<NumericFacetProps> = (props) => {
   const formatRangeLabel = (range: any) => {
     const start = Math.round(range.start);
     if (range.end > 300) {
-      return `${start}+ units`;
+      return `${start}+ ${props.language === 'en' ? 'units' : 'unités'}`;
     }
     const end = Math.round(range.end);
-    return `${start} - ${end} units`;
+    return `${start} - ${end} ${props.language === 'en' ? 'units' : 'unités'}`;
   };
 
   return (

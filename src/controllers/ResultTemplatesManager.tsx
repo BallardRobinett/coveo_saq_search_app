@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import InventoryIcon from '@mui/icons-material/Inventory';
-import StarIcon from '@mui/icons-material/Star';
+import { AppLanguage } from '../App';
 
 const titleColor = '#6CB3F5'
 const textColor = '#6CB3F5'
@@ -40,20 +40,20 @@ function extractCategories(input: string): string[] {
   return categories;
 }
 
-export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): ResultTemplatesManager<(result: Result) => JSX.Element> => {
-  const manager: ResultTemplatesManager<(result: Result) => JSX.Element> = buildResultTemplatesManager(engine);
+export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): ResultTemplatesManager<(result: Result, language: AppLanguage) => JSX.Element> => {
+  const manager: ResultTemplatesManager<(result: Result, language: AppLanguage) => JSX.Element> = buildResultTemplatesManager(engine);
  
   manager.registerTemplates(
     {
       conditions: [],
-      content: (result: Result) => {
+      content: (result: Result, language: AppLanguage = 'en') => {
         const title = extractTitle(result.title);
         const price = result.raw.ec_price as string;
         const availability = result.raw.product_availability as string;
         const rating = parseFloat(result.raw.product_rating as string) || 0;
         const productName = result.raw.product_name as string;
         const categories: String[] = extractCategories(result.raw.category as string);
-        const isFeatured = result.isRecommendation || result.isTopResult;
+        const availableText = language === 'en' ? 'available' : 'disponible';
 
         return (
           <li key={result.uniqueId} style={{marginBottom: '16px', listStyle: 'none'}}>
@@ -66,27 +66,8 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                   transform: 'translateY(-2px)',
                   boxShadow: (theme) => `0 4px 12px ${alpha(theme.palette.common.black, 0.1)}`,
                 },
-                border: isFeatured ? '1px solid' : 'inherit',
-                borderColor: isFeatured ? 'warning.light' : 'inherit',
-                position: 'relative',
               }}
             >
-              {isFeatured && (
-                <Chip
-                  icon={<StarIcon fontSize="small" />}
-                  label="Featured"
-                  size="small"
-                  color="warning"
-                  sx={{
-                    position: 'absolute',
-                    top: 27,
-                    right: 70,
-                    fontWeight: 600,
-                    zIndex: 1,
-                  }}
-                />
-              )}
-              
               <Box display="flex" gap={3}>
                 <Box
                   sx={{
@@ -192,7 +173,7 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                             color: 'primary.main'
                           }}
                         >
-                          {availability} available
+                          {availability} {availableText}
                         </Typography>
                       </Box>
                     )}

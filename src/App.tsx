@@ -9,13 +9,38 @@ import {
   createTheme,
   CssBaseline,
   alpha,
-  Button,
-  Divider,
-  Stack
+  Button
 } from '@mui/material';
+
+// Define language type
+export type AppLanguage = 'en' | 'fr';
+
+// Translations
+export const translations = {
+  en: {
+    availableUnits: "Available Units",
+    sortBy: "Sort by:",
+    available: "available",
+    showMore: "Show More",
+    showLess: "Show Less",
+    noFacetValues: "No facet values available",
+    noResults: "No results",
+    units: "units"
+  },
+  fr: {
+    availableUnits: "Unités disponibles",
+    sortBy: "Trier par:",
+    available: "disponible",
+    showMore: "Afficher plus",
+    showLess: "Afficher moins",
+    noFacetValues: "Aucune valeur de facette disponible",
+    noResults: "Aucun résultat",
+    units: "unités"
+  }
+} as const;
+
 import SearchBox from "./components/SearchBox";
 import NumericFacet from "./components/NumericFacet";
-import PriceFacet from "./components/PriceFacet";
 import ResultList from "./components/ResultList";
 import Pager from "./components/Pager";
 import { buildControllers } from './controllers/controllers';
@@ -116,7 +141,7 @@ const theme = createTheme({
 let didInit = false;
 
 function App() {
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState<AppLanguage>('en');
   const [controllers, setControllers] = useState(() => buildControllers(headlessEngine));
 
   useEffect(() => {
@@ -202,13 +227,7 @@ function App() {
                   backgroundColor: colors.paper,
                 }}
               >
-                <Stack spacing={3}>
-                  <PriceFacet controller={controllers.priceFacet} title="Price Range" />
-                  
-                  <Divider sx={{ borderColor: alpha(colors.border, 0.5) }} />
-                  
-                  <NumericFacet controller={controllers.numericFacet} title="Available Units" />
-                </Stack>
+                <NumericFacet controller={controllers.numericFacet} title={translations[language].availableUnits} language={language} />
               </Paper>
             </Grid>
             
@@ -221,11 +240,12 @@ function App() {
                 }}
               >
                 <Box sx={{ mb: 3 }}>
-                  <Sort controller={controllers.sort} criteria={criteria} />
+                  <Sort controller={controllers.sort} criteria={criteria} language={language} />
                 </Box>
                 <ResultList
                   controller={controllers.resultList}
                   resultTemplatesManager={controllers.resultTemplatesManager}
+                  language={language}
                 />
                 <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
                   <Pager controller={controllers.pager} />

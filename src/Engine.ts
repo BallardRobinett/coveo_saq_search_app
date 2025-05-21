@@ -5,7 +5,7 @@ import {
   SearchEngine,
   loadSearchConfigurationActions,
 } from "@coveo/headless";
-
+import { AppLanguage } from "./App";
 
 const FIELDS = [
   "ec_images",
@@ -19,12 +19,12 @@ const registerAdditionalFields = (headlessEngine: SearchEngine) => {
 
 let headlessEngine: SearchEngine;
 
-export const buildEngine = (language: string) => {
+export const buildEngine = (language: AppLanguage) => {
   const pipelineNames = {
     'en': 'saq_query_pipeline_en',
     'fr': 'saq_query_pipeline_fr',
   };
-  const pipelineName = pipelineNames[language as keyof typeof pipelineNames] || pipelineNames['en'];
+  const pipelineName = pipelineNames[language] || pipelineNames['en'];
   const config = {
     organizationId: "prftallenzw2b34lf",
     accessToken: 'xxfa66ef37-9bf1-4633-9a1d-11f07b2f0a4c',
@@ -46,7 +46,7 @@ headlessEngine = buildEngine('en');
 
 export {headlessEngine};
 
-export const updatePipeline = (language: string): SearchEngine => {
+export const updatePipeline = (language: AppLanguage): SearchEngine => {
   headlessEngine = buildEngine(language);
   return headlessEngine;
 };

@@ -4,12 +4,14 @@ import {
   ResultList as ResultListController,
   ResultTemplatesManager
 } from "@coveo/headless";
+import { AppLanguage } from "../App";
 
 interface ResultListProps {
   controller: ResultListController;
   resultTemplatesManager: ResultTemplatesManager<
-    (result: Result) => JSX.Element
+    (result: Result, language: AppLanguage) => JSX.Element
   >;
+  language: AppLanguage;
 }
 
 const ResultList: FunctionComponent<ResultListProps> = (props) => {
@@ -33,7 +35,7 @@ const ResultList: FunctionComponent<ResultListProps> = (props) => {
           const template = resultTemplatesManager.selectTemplate(result);
           if (!template)
             throw new Error(`No result template provided for ${result.title}.`);
-          return template(result);
+          return template(result, props.language);
         })}
       </ul>
     </div>

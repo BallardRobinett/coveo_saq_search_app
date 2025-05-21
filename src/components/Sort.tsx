@@ -9,10 +9,12 @@ import {
   buildNoSortCriterion
 } from '@coveo/headless';
 import { useEffect, useState, FunctionComponent } from 'react';
+import { AppLanguage } from '../App';
  
 interface SortProps {
   controller: HeadlessSort;
   criteria: [string, SortCriterion][];
+  language: AppLanguage;
 }
  
 export const Sort: FunctionComponent<SortProps> = (props) => {
@@ -32,7 +34,7 @@ export const Sort: FunctionComponent<SortProps> = (props) => {
  
   return (
     <div className="sort">
-      <p>Sort by:&nbsp;</p>
+      <p>{props.language === 'en' ? 'Sort by:' : 'Trier par:'}&nbsp;</p>
       <select
         value={getCurrentCriterion()[0]}
         onChange={(e) =>
