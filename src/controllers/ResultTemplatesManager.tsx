@@ -208,16 +208,6 @@ export const buildResultTemplatesManagerWithEngine = (engine: SearchEngine): Res
                         </Typography>
                       </Box>
                     )}
-                    
-                    {(
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ fontStyle: 'italic' }}
-                      >
-                        {productName}
-                      </Typography>
-                    )}
                   </Box>
                   
                   {(

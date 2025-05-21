@@ -210,7 +210,7 @@ function App() {
             align="center" 
             sx={{ mb: 5 }}
           >
-            {language === 'en' ? "SAQ Search App English" : "SAQ Search App French"}
+            {language === 'en' ? "SAQ Search App [English]" : "SAQ Search App [French]"}
           </Typography>
           
           <Box 
