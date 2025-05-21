@@ -107,6 +107,12 @@ export const buildControllers = (engine: SearchEngine): Controllers => {
           },
           {
             start: 200,
+            end: 400,
+            endInclusive: true,
+            state: 'idle'
+          },
+          {
+            start: 400,
             end: 5000,
             endInclusive: true,
             state: 'idle'
